@@ -1,5 +1,6 @@
-const mActor        = require('../models/actors.model')
+const mActor        = require('../models/actor.model')
 const mActorDetails = require('../models/actor_details.model')
+const mMoviesDetails = require ('../models/movie_detail.model')
 
 
 exports.getList = async (req, res) => {
@@ -38,7 +39,7 @@ exports.getActor = async (req, res) => {
         const obj = { message: 'No existe el actor' }
         return res.send(obj)
     }
-    const actorDetails = {} // TODO: recoger los detalles del actor
+    const actorDetails = await mActorDetails.findOne(dbQuery) // TODO: recoger los detalles del actor
 
     const data = { actor, actorDetails }
 
@@ -51,12 +52,12 @@ exports.getActorsVideos = async (req, res) => {
     const {body, params, query} = req
     const id = params.id || query.id || body.id
 
-    const actor = {} //TODO: Recoger los datos del actor
+    const actor = await mActor.findOne(dbQuery) //TODO: Recoger los datos del actor
     if (!actor) {
         const obj = { message: 'No existe el actor' }
         return res.send(obj)
     }
-    const movies = [] // TODO: recoger los detalles de las peliculas del actor
+    const moviesDetails = await mMoviesDetails.findOne(dbQuery) // TODO: recoger los detalles de las peliculas del actor
 
     const data = { actor, movies }
 
